@@ -1,0 +1,43 @@
+[
+   {
+    "nome":"Rebeca",
+    "idade": 17,
+    "apelido":"Beca"
+   },
+   {
+    "nome":"Henrique",
+    "idade": 17,
+    "apelido":"Rick"
+   },
+   {
+    "nome":"Benjamim",
+    "idade": 4,
+    "apelido": "Be"
+   },
+   {
+    "nome":"Luiz",
+    "idade":17,
+    "apelido": null
+   },
+   {
+    "nome":"Danuza",
+    "idade":37,
+    "apelido": "Da"
+   },
+   {
+    "nome":"Cristiano",
+    "idade":40,
+    "apelido": "Cris"
+   },  
+   {
+    "nome":"Sandreli",
+    "idade": 50,
+    "apelido": "Sandra"
+   },
+   {
+    "nome":"Hamilton",
+    "idade": 59,
+    "apelido": null
+   }
+
+]
