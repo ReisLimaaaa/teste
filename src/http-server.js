@@ -4,11 +4,15 @@ const app = express()
 
 app.use(express.static(__dirname + '/public'))
 
-app.use("/create", (req, res) => {
-    const { file, texto } = req.query
-    fs.writeFileSync(file, texto)
-    res.send(new Date())
-})
+app.use("/create", async (req, res) => {
+    const { title, source, description, thumb } = req.query
+    const db = await getDatabaseInstance()
+    const result = await db.run(`
+      INSERT INTO movies(title, source, description, thumb) VALUES(?, ?, ?, ?)`,
+      [title, source, description, thumb]
+    )
+    res.send(result)
+  })
 
 app.use("/read", (req,res) => {
     const { file } = req.query
@@ -31,5 +35,5 @@ app.use("/delete", (req,res) => {
     res.send(rm)
 })
 
-app.listen(3000, () => console.log("Servidor rodando !"))
+app.listen(3000, () => console.log("Servidor rodando!"))
 
