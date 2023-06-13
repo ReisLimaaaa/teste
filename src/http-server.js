@@ -1,5 +1,7 @@
 const express = require("express")
 const fs = require("fs")
+const { getDatabaseInstance } = require("./database")
+
 const app = express()
 
 app.use(express.static(__dirname + '/public'))
@@ -7,31 +9,33 @@ app.use(express.static(__dirname + '/public'))
 app.use("/create", async (req, res) => {
     const { title, source, description, thumb } = req.query
     const db = await getDatabaseInstance()
-    const result = await db.run(`
-      INSERT INTO movies(title, source, description, thumb) VALUES(?, ?, ?, ?)`,
+    const result = await db.run(`INSERT INTO movies(title, source, description, thumb) VALUES(?, ?, ?, ?)`,
       [title, source, description, thumb]
     )
     res.send(result)
   })
 
-app.use("/read", (req,res) => {
-    const { file } = req.query
-    const teste = fs.readFileSync(file, 'utf8')
+app.use("/read", async (req,res) => {
+    const { id } = req.query
+    const db = await getDatabaseInstance()
+    const leia = await db.get(`SELECT title FROM movies WHERE id=?`, [id])
 
-    res.send(teste)
+    res.send(leia)
 })
 
-app.use("/update", (req,res) => {
-    const { file, texto } = req.query
-    const update = fs.appendFileSync(file, texto)
+app.use("/update", async (req,res) => {
+    const { title, id } = req.query
+    const db = await getDatabaseInstance()
+    const update = await db.get(`UPDATE movies SET title=? WHERE id=?`, [title, id])
 
     res.send(update)
 })
 
-app.use("/delete", (req,res) => {
-    const { file, query } = req.query
-    const rm = fs.rmSync(file)
-
+app.use("/delete", async (req,res) => {
+    const { id } = req.query
+    const db = await getDatabaseInstance()
+    const rm = await db.get(`DELETE FROM movies WHERE id=?`, [id])
+    
     res.send(rm)
 })
 
