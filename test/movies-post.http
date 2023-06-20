@@ -1,0 +1,9 @@
+POST https://reislimaaaa-orange-space-lamp-xg6rxr54jwr396wx-3000.preview.app.github.dev/movies HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Miranha no Multi Versu da Locura",
+  "source": "http://alksdfjlsadfjlskad.com/akudhaskduas.mp4",
+  "description": "Miranha fazendu altas locuras no multiverso da locura",
+  "thumb": "http://alksdfjlsadfjlskad.com/akudhaskduas.jpg"
+}

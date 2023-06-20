@@ -6,8 +6,8 @@ const app = express()
 
 app.use(express.static(__dirname + '/public'))
 
-app.use("/create", async (req, res) => {
-    const { title, source, description, thumb } = req.query
+app.post("/movies", async (req, res) => {
+    const { title, source, description, thumb } = req.body
     const db = await getDatabaseInstance()
     const result = await db.run(`INSERT INTO movies(title, source, description, thumb) VALUES(?, ?, ?, ?)`,
       [title, source, description, thumb]
@@ -15,24 +15,29 @@ app.use("/create", async (req, res) => {
     res.send(result)
   })
 
-app.use("/read", async (req,res) => {
-    const { id } = req.query
+app.get("/movies", async (req,res) => {
+    const { id } = req.body
     const db = await getDatabaseInstance()
-    const leia = await db.get(`SELECT title FROM movies WHERE id=?`, [id])
+    const leia = await db.get(`SELECT * FROM movies WHERE id=?`, [id])
 
     res.send(leia)
 })
 
-app.use("/update", async (req,res) => {
-    const { title, id } = req.query
+app.put("/movies", async (req,res) => {
+    const { title, id } = req.body
     const db = await getDatabaseInstance()
     const update = await db.get(`UPDATE movies SET title=? WHERE id=?`, [title, id])
 
-    res.send(update)
+    res.send(update)  
 })
 
-app.use("/delete", async (req,res) => {
-    const { id } = req.query
+app.patch("/movies", async (req,res) => {
+  const
+  const db = await 
+})
+
+app.delete("/movies", async (req,res) => {
+    const { id } = req.body
     const db = await getDatabaseInstance()
     const rm = await db.get(`DELETE FROM movies WHERE id=?`, [id])
     
