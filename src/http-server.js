@@ -4,7 +4,7 @@ const { getDatabaseInstance } = require("./database")
 
 const app = express()
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/../public'))
 app.use(express.json())
 
 app.post("/movies", async (req, res) => {
@@ -16,17 +16,15 @@ app.post("/movies", async (req, res) => {
   })
 
 app.get("/movies", async (req,res) => {
-    const { id } = req.body
     const db = await getDatabaseInstance()
-    const leia = await db.get(`SELECT * FROM movies WHERE id=?`, [id])
-    
+    const leia = await db.all(`SELECT * FROM movies`)
     res.send(leia)
 })
 
 app.put("/movies", async (req, res) => {
   const { title, source, description, thumb, id } = req.body
   const db = await getDatabaseInstance()
-  const put = await db.get(`UPDATE movies SET title=?, source=?, description=?, thumb=? WHERE id=?`, 
+  const put = await db.run(`UPDATE movies SET title=?, source=?, description=?, thumb=? WHERE id=?`, 
   [title, source, description, thumb, id])
   res.send(put)
 })
@@ -36,7 +34,7 @@ app.patch("/movies", async (req, res) => {
   const { id } = req.query
   const sets = Object.keys(req.body).map(key => `${key}=?`).join(", ")
   const values = Object.values(req.body)
-  const patch = await db.get(`UPDATE movies SET ${sets} WHERE id=?`, [...values, id])
+  const patch = await db.run(`UPDATE movies SET ${sets} WHERE id=?`, [...values, id])
 
   res.send(patch)  
 })
@@ -44,7 +42,7 @@ app.patch("/movies", async (req, res) => {
 app.delete("/movies", async (req,res) => {
     const { id } = req.query
     const db = await getDatabaseInstance()
-    const rm = await db.get(`DELETE FROM movies WHERE id=?`, [id])
+    const rm = await db.run(`DELETE FROM movies WHERE id=?`, [id])
 
     res.send(rm)
 })

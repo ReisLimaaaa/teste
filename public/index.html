@@ -1,30 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Teste</title>
 </head>
+
 <body>
-
+    <form>
+        <div>
+            <label for="title">title</label>
+            <input name="source" id="source">
+        </div>
+        <div>
+            <label for="source">source</label>
+            <input name="source" id="source">
+        </div>
+        <div>
+            <label for="description">description</label>
+            <input name="description" id="description">
+        </div>
+        <div>
+            <label for="thumb">thumb</label>
+            <input name="thumb" id="thumb">
+        </div>
+        <div>
+            <button>Cadastrar</button>
+        </div>
+    </form>
+    <ul class="movie-list">
+        <!--  -->
+    </ul>
+    
     <script>
-        async function main() {
-            const now = new Date()
-            const request = await fetch("my-data.json")
-            const data = await request.json()
-
-            data.forEach(pessoa => {
-                const [y,m,d] = pessoa.dataNasc
-                const nasc = new Date(y,m,d)
-                document.body.innerHTML += `<button>
-                    ${pessoa.nome},
-                    ${now.getTime() - nasc.getTime()},
-                    ${pessoa.apelido}
-                    </button>`
+        const domMovieList = document.querySelector("ul.movie-list")
+        
+        async function listarTodosOsFilmes() {
+            const response = await fetch("/movies")
+            const movies = await response.json()
+            
+            movies.forEach(movie => {
+                domMovieList.innerHTML += `
+                    <li>
+                        <strong>title</strong>
+                        ${movie.title}
+                        <ul>
+                            <li>
+                                <strong>source</strong>
+                                ${movie.source}
+                            </li>
+                            <li>
+                                <strong>thumb</strong>
+                                ${movie.thumb}
+                            </li>
+                            <li>
+                                <strong>description</strong>
+                                ${movie.description}
+                            </li>
+                        </ul>
+                    </li>
+                `
             })
         }
 
-        main()
-
+        listarTodosOsFilmes()
     </script>
 </body>
+
 </html>
